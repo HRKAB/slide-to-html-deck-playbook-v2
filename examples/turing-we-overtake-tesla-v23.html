@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Turing株式会社 — We Overtake Tesla. 完全自動運転を実現する。v2.3 変換キット実証デック">
+<meta property="og:title" content="Turing — We Overtake Tesla">
+<meta property="og:description" content="完全自動運転を実現する。日本のスタートアップが Tesla を抜く。">
+<meta property="og:type" content="website">
+<title>Turing — We Overtake Tesla</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════ TURING DESIGN SYSTEM ═══════════════════════ */
+:root {
+  /* Brand — verified Turing crimson */
+  --brand-primary:       #9B1B30;
+  --brand-primary-hover: #B82E42;
+  --brand-primary-deep:  #6F0F20;
+  --brand-primary-soft:  #C84357;
+
+  /* Neutrals (TDS 9-step) */
+  --gray-900: #111111; --gray-800: #1E1E1E; --gray-700: #2C2C2C;
+  --gray-600: #404040; --gray-500: #5A5A5A; --gray-400: #8A8A8A;
+  --gray-300: #C8C8C8; --gray-200: #E2E2E2; --gray-100: #F2F2F2; --gray-50: #F9F9F9;
+
+  /* Semantic — LIGHT default per TDS */
+  --bg: #EEEEEE;
+  --bg-card: #FFFFFF;
+  --bg-elev: #F5F5F5;
+  --bg-dark: #111111;
+  --text: #111111;
+  --text-2: #2C2C2C;
+  --text-3: #5A5A5A;
+  --text-mute: #8A8A8A;
+  --border: #D8D8D8;
+  --border-h: #BFBFBF;
+
+  /* Type */
+  --font-display: 'Montserrat', 'Noto Sans JP', sans-serif;
+  --font-body:    'Noto Sans JP', 'Montserrat', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+  --font-script:  'Caveat', cursive;
+
+  --nav-h: 56px; --head-h: 56px;
+  --pad-x: clamp(28px, 5vw, 80px);
+  --max-w: 1480px;
+  --ease-cine: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ═══════════════════════ RESET / BASE ═══════════════════════ */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+body {
+  font-family: var(--font-body); color: var(--text); background: var(--bg);
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  word-break: auto-phrase; line-break: strict;
+}
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+strong { font-weight: 700; }
+
+/* ═══════════════════════ TOP NAV ═══════════════════════ */
+#nav {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--pad-x);
+  background: rgba(238,238,238,0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  z-index: 50; border-bottom: 1px solid var(--border);
+}
+#nav.on-dark {
+  background: rgba(17,17,17,0.86); border-bottom-color: rgba(255,255,255,0.08);
+}
+#nav .logo {
+  font-family: var(--font-display); font-weight: 900; font-size: 15px; letter-spacing: 0.04em;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 10px; color: var(--text);
+}
+#nav.on-dark .logo { color: #fff; }
+#nav .logo .dot { width: 8px; height: 8px; background: var(--brand-primary); border-radius: 50%; }
+#nav .nav-links { display: flex; gap: 24px; list-style: none; }
+#nav .nav-links a {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--text-3); position: relative; padding: 8px 0; transition: color 0.2s;
+}
+#nav.on-dark .nav-links a { color: rgba(255,255,255,0.55); }
+#nav .nav-links a:hover { color: var(--text); }
+#nav.on-dark .nav-links a:hover { color: #fff; }
+#nav .nav-links a.active { color: var(--brand-primary); }
+#nav.on-dark .nav-links a.active { color: var(--brand-primary-soft); }
+#nav .nav-links a.active::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 2px; background: var(--brand-primary);
+}
+#nav.on-dark .nav-links a.active::after { background: var(--brand-primary-soft); }
+#nav .lang { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--text-mute); }
+#nav.on-dark .lang { color: rgba(255,255,255,0.5); }
+@media (max-width: 900px) { #nav .nav-links { display: none; } }
+
+/* ═══════════════════════ HORIZONTAL SLIDES TRACK ═══════════════════════ */
+#slides-container { position: fixed; inset: 0; overflow: hidden; }
+#slides-track {
+  display: flex;
+  height: 100vh; height: 100dvh;
+  transition: transform 0.9s var(--ease-cine);
+}
+#slides-track > section {
+  flex: 0 0 100%; width: 100vw; height: 100vh; height: 100dvh;
+  position: relative; overflow: hidden;
+}
+
+.sec-header {
+  position: absolute; top: 0; left: 0; right: 0; height: var(--head-h);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 var(--pad-x); padding-top: var(--nav-h); z-index: 10;
+}
+.sec-header .h-title {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--text-3); display: flex; align-items: center; gap: 10px;
+}
+.sec-header .h-cat { color: var(--brand-primary); font-weight: 700; }
+.sec-header .h-divider { opacity: 0.5; }
+.sec-header .h-meta {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.22em; color: var(--text-mute);
+}
+.on-dark-sec .sec-header .h-title { color: rgba(255,255,255,0.55); }
+.on-dark-sec .sec-header .h-cat { color: var(--brand-primary-soft); }
+.on-dark-sec .sec-header .h-meta { color: rgba(255,255,255,0.4); }
+
+.sec-body {
+  padding-top: calc(var(--nav-h) + var(--head-h));
+  padding-bottom: clamp(40px, 6vh, 80px);
+  height: 100%; display: flex; flex-direction: column;
+}
+
+/* ═══════════════════════ REVEAL ANIMATIONS ═══════════════════════ */
+.reveal { opacity: 0; transform: translateY(20px); }
+.slide-active .reveal { animation: revealUp 0.85s var(--ease-cine) var(--d, 0s) forwards; }
+.reveal.d1 { --d: 0.10s; } .reveal.d2 { --d: 0.20s; } .reveal.d3 { --d: 0.30s; }
+.reveal.d4 { --d: 0.40s; } .reveal.d5 { --d: 0.50s; } .reveal.d6 { --d: 0.60s; } .reveal.d7 { --d: 0.70s; } .reveal.d8 { --d: 0.80s; }
+@keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
+
+.fade-in { opacity: 0; }
+.slide-active .fade-in { animation: fadeIn 1.3s var(--ease-cine) var(--d, 0s) forwards; }
+@keyframes fadeIn { to { opacity: 1; } }
+
+.scale-in { opacity: 0; transform: scale(0.96); }
+.slide-active .scale-in { animation: scaleIn 1.1s var(--ease-cine) var(--d, 0s) forwards; }
+@keyframes scaleIn { to { opacity: 1; transform: scale(1); } }
+
+.dissolve { opacity: 0; filter: blur(14px); transform: scale(1.02); }
+.slide-active .dissolve { animation: dissolveIn 1.6s var(--ease-cine) var(--d, 0s) forwards; }
+@keyframes dissolveIn { to { opacity: 1; filter: blur(0); transform: scale(1); } }
+
+.v-reveal-down { opacity: 0; transform: translateY(-80%); }
+.slide-active .v-reveal-down { animation: vRevealDown 1.2s var(--ease-cine) var(--d, 0s) forwards; }
+@keyframes vRevealDown { to { opacity: 1; transform: translateY(0); } }
+
+/* ═══════════════════════ DOT NAV ═══════════════════════ */
+#dot-nav {
+  position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 14px; z-index: 40;
+}
+.dot-btn {
+  width: 30px; height: 30px; border: 1px solid var(--border); border-radius: 50%;
+  background: rgba(255,255,255,0.7);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.25s var(--ease-cine); position: relative;
+}
+.dot-btn:hover { background: #fff; border-color: var(--border-h); transform: scale(1.1); }
+.dot-btn.active { background: var(--brand-primary); border-color: var(--brand-primary); }
+.dot-btn .dot-label {
+  position: absolute; right: 100%; margin-right: 12px;
+  padding: 5px 10px; background: var(--text); color: #fff;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em;
+  white-space: nowrap; opacity: 0; pointer-events: none;
+  border-radius: 3px; transition: opacity 0.2s;
+}
+.dot-btn:hover .dot-label { opacity: 1; }
+.dot-btn .dot-pips { display: flex; gap: 2px; }
+.dot-btn .dot-pip { width: 4px; height: 4px; background: var(--text-mute); border-radius: 50%; }
+.dot-btn.active .dot-pip.active { background: #fff; }
+.on-dark-mode #dot-nav .dot-btn { background: rgba(28,28,28,0.5); border-color: rgba(255,255,255,0.15); }
+@media (max-width: 768px) { #dot-nav { display: none; } }
+
+/* ═══════════════════════ SLIDE COUNTER ═══════════════════════ */
+#slide-counter {
+  position: fixed; left: 20px; bottom: 20px;
+  display: flex; align-items: center; gap: 12px; z-index: 40; font-family: var(--font-mono);
+}
+#slide-counter .sc-num { font-size: 11px; letter-spacing: 0.1em; color: var(--text-3); }
+#slide-counter .sc-bar {
+  position: relative; width: 120px; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden;
+}
+#slide-counter .sc-bar::after {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: var(--progress, 0%); background: var(--brand-primary); transition: width 0.9s var(--ease-cine);
+}
+#slide-counter .sc-section {
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-mute);
+}
+.on-dark-mode #slide-counter .sc-num { color: rgba(255,255,255,0.7); }
+.on-dark-mode #slide-counter .sc-bar { background: rgba(255,255,255,0.15); }
+.on-dark-mode #slide-counter .sc-section { color: rgba(255,255,255,0.5); }
+
+/* ═══════════════════════ GROUP DOTS ═══════════════════════ */
+#group-dots {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 10px; z-index: 40;
+}
+#group-dots[hidden] { display: none; }
+#group-dots .td-step { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.16em; color: var(--text-3); }
+#group-dots .td-step strong { color: var(--brand-primary); font-weight: 700; }
+#group-dots .td-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--gray-300);
+  transition: background 0.2s, transform 0.2s;
+}
+#group-dots .td-dot:hover { transform: scale(1.2); }
+#group-dots .td-dot.active { background: var(--brand-primary); }
+
+.reel-viewport { overflow: hidden; height: 100%; }
+.reel-track { display: flex; height: 100%; transition: transform 0.7s var(--ease-cine); }
+.reel-slide { flex: 0 0 100%; width: 100%; height: 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .fade-in, .scale-in, .dissolve, .v-reveal-down {
+    opacity: 1 !important; transform: none !important; filter: none !important; animation: none !important;
+  }
+  #slides-track, .reel-track { transition: none !important; }
+}
+
+/* ═══════════════════════ #cover — Ken Burns + Fade-in stagger ═══════════════════════ */
+#cover { background: var(--bg-dark); color: #fff; position: relative; overflow: hidden; }
+#cover .cv-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 70% 30%, rgba(155,27,48,0.4) 0%, transparent 55%),
+    radial-gradient(ellipse at 20% 80%, rgba(155,27,48,0.18) 0%, transparent 50%),
+    linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
+  animation: cvKenBurns 28s ease-in-out infinite alternate;
+}
+@keyframes cvKenBurns {
+  from { transform: scale(1.05) translate(0,0); }
+  to   { transform: scale(1.15) translate(-2%,-1%); }
+}
+#cover .cv-grid {
+  position: absolute; inset: 0; opacity: 0.06;
+  background-image: linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px);
+  background-size: 100px 100px;
+}
+#cover .cv-body {
+  position: relative; z-index: 2; padding: var(--pad-x); height: 100%;
+  display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 12vh;
+  max-width: 1400px; margin: 0 auto;
+}
+#cover .cv-eyebrow {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.5em;
+  color: rgba(255,255,255,0.75); margin-bottom: 32px; text-transform: uppercase;
+}
+#cover .cv-title {
+  font-family: var(--font-display); font-size: clamp(64px, 11vw, 180px); font-weight: 900;
+  line-height: 0.95; letter-spacing: -0.04em; color: #fff;
+  margin-bottom: 36px;
+}
+#cover .cv-title .accent {
+  color: var(--brand-primary-soft);
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: 0.92em;
+}
+#cover .cv-tagline {
+  font-family: var(--font-display); font-weight: 600; font-size: clamp(16px, 1.6vw, 22px);
+  color: rgba(255,255,255,0.7); max-width: 60ch; line-height: 1.6; margin-bottom: 36px;
+}
+#cover .cv-meta {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.45); display: flex; align-items: center; gap: 14px;
+}
+#cover .cv-meta::before { content: ""; width: 30px; height: 1px; background: rgba(255,255,255,0.3); }
+
+/* ═══════════════════════ #manifesto — Cinematic dissolve (We Overtake Tesla declaration) ═══════════════════════ */
+#manifesto { background: var(--bg-dark); color: #fff; position: relative; overflow: hidden; }
+#manifesto .mf-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at center, rgba(155,27,48,0.25) 0%, transparent 55%),
+    linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
+}
+#manifesto .mf-body {
+  position: relative; z-index: 2; padding: var(--pad-x); height: 100%;
+  display: grid; grid-template-columns: 1fr 1.4fr; gap: 56px; align-items: center;
+  max-width: 1400px; margin: 0 auto;
+}
+@media (max-width: 980px) { #manifesto .mf-body { grid-template-columns: 1fr; gap: 32px; } }
+#manifesto .mf-left {
+  border-left: 3px solid var(--brand-primary); padding-left: 32px;
+}
+#manifesto .mf-eyebrow {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.4em;
+  color: var(--brand-primary-soft); margin-bottom: 28px; text-transform: uppercase;
+}
+#manifesto .mf-headline {
+  font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px); font-weight: 800;
+  line-height: 1.1; letter-spacing: -0.025em; color: #fff;
+}
+#manifesto .mf-headline .accent { color: var(--brand-primary-soft); }
+#manifesto .mf-headline .script {
+  font-family: var(--font-script); font-weight: 700;
+  color: var(--brand-primary-soft); font-size: 1.1em;
+}
+#manifesto .mf-right {
+  font-size: clamp(13px, 1.1vw, 16px); color: rgba(255,255,255,0.82);
+  line-height: 1.95; max-width: 56ch;
+}
+#manifesto .mf-right p { margin-bottom: 16px; }
+#manifesto .mf-right p:last-child { margin-bottom: 0; }
+#manifesto .mf-right .em { color: #fff; font-weight: 700; }
+
+/* ═══════════════════════ #mission — Pure fade dissolve, centered ═══════════════════════ */
+#mission { background: var(--bg-dark); color: #fff; position: relative; }
+#mission .ms-grid {
+  position: absolute; inset: 0; opacity: 0.05;
+  background-image:
+    linear-gradient(to right, #fff 1px, transparent 1px),
+    linear-gradient(to bottom, #fff 1px, transparent 1px);
+  background-size: 120px 120px;
+}
+#mission .ms-body {
+  position: relative; z-index: 2; padding: var(--pad-x); height: 100%;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+}
+#mission .ms-eyebrow {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.5em;
+  color: var(--brand-primary-soft); margin-bottom: 40px; text-transform: uppercase;
+}
+#mission .ms-statement {
+  font-family: var(--font-display); font-size: clamp(48px, 8vw, 124px); font-weight: 800;
+  line-height: 1.05; letter-spacing: -0.03em; max-width: 18ch; color: #fff;
+}
+#mission .ms-statement .accent { color: var(--brand-primary-soft); }
+#mission .ms-sub {
+  margin-top: 48px; font-size: clamp(14px, 1.2vw, 17px); color: rgba(255,255,255,0.6);
+  max-width: 56ch; line-height: 1.8;
+}
+
+/* ═══════════════════════ #e2e — Scale-in two columns (technology) ═══════════════════════ */
+#e2e { background: var(--bg); position: relative; }
+#e2e .e2-body {
+  padding: var(--pad-x); height: 100%; display: flex; flex-direction: column; justify-content: center;
+  max-width: 1480px; margin: 0 auto;
+}
+#e2e .e2-title {
+  font-family: var(--font-display); font-size: clamp(28px, 3.6vw, 46px); font-weight: 800;
+  letter-spacing: -0.02em; margin-bottom: 14px;
+}
+#e2e .e2-title .accent { color: var(--brand-primary); }
+#e2e .e2-lead { font-size: 15px; color: var(--text-3); max-width: 64ch; margin-bottom: 56px; line-height: 1.75; }
+#e2e .e2-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+}
+@media (max-width: 860px) { #e2e .e2-grid { grid-template-columns: 1fr; } }
+#e2e .e2-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 36px; min-height: 360px; display: flex; flex-direction: column;
+  transition: transform 0.3s var(--ease-cine), border-color 0.3s var(--ease-cine);
+  position: relative;
+}
+#e2e .e2-card.highlight { border-color: var(--brand-primary); background: linear-gradient(180deg, #fff 0%, #fef9fa 100%); }
+#e2e .e2-card.highlight::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: var(--brand-primary); border-radius: 14px 14px 0 0;
+}
+#e2e .e2-card-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--text-mute); margin-bottom: 18px;
+}
+#e2e .e2-card.highlight .e2-card-label { color: var(--brand-primary); }
+#e2e .e2-card h3 {
+  font-family: var(--font-display); font-size: 22px; font-weight: 700;
+  margin-bottom: 14px; line-height: 1.3; color: var(--text);
+}
+#e2e .e2-card p { font-size: 14px; color: var(--text-2); line-height: 1.75; margin-bottom: 14px; }
+#e2e .e2-card ul { list-style: none; padding: 0; margin-top: auto; }
+#e2e .e2-card li {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-3);
+  padding: 6px 0; border-bottom: 1px dashed var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+#e2e .e2-card li::before { content: "›"; color: var(--brand-primary); font-weight: 700; }
+#e2e .e2-card.highlight li { color: var(--text); }
+
+/* ═══════════════════════ #tokyo30 — Vertical reveal big number ═══════════════════════ */
+#tokyo30 { background: var(--bg-dark); color: #fff; position: relative; overflow: hidden; }
+#tokyo30 .tk-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 80% 70%, rgba(155,27,48,0.3) 0%, transparent 55%),
+    linear-gradient(160deg, #111111 0%, #1d1d1d 100%);
+}
+#tokyo30 .tk-body {
+  position: relative; z-index: 2; padding: var(--pad-x); height: 100%;
+  display: grid; grid-template-columns: 1.3fr 1fr; gap: 56px; align-items: center;
+  max-width: 1400px; margin: 0 auto;
+}
+@media (max-width: 980px) { #tokyo30 .tk-body { grid-template-columns: 1fr; } }
+#tokyo30 .tk-left .tk-eyebrow {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.4em;
+  color: var(--brand-primary-soft); margin-bottom: 20px; text-transform: uppercase;
+}
+#tokyo30 .tk-big {
+  font-family: var(--font-display); font-size: clamp(96px, 18vw, 280px); font-weight: 900;
+  color: var(--brand-primary-soft); letter-spacing: -0.06em; line-height: 0.85;
+}
+#tokyo30 .tk-big sup { font-size: 0.32em; vertical-align: super; color: rgba(255,255,255,0.5); font-weight: 700; letter-spacing: 0.05em; }
+#tokyo30 .tk-statement {
+  margin-top: 28px; font-family: var(--font-display); font-size: clamp(18px, 2.2vw, 28px);
+  font-weight: 600; line-height: 1.5; color: #fff; max-width: 22ch;
+}
+#tokyo30 .tk-right {
+  display: flex; flex-direction: column; gap: 18px;
+}
+#tokyo30 .tk-mile {
+  padding: 22px 24px; background: rgba(255,255,255,0.03); border-left: 2px solid var(--brand-primary-soft);
+  border-radius: 0 8px 8px 0;
+}
+#tokyo30 .tk-mile-year {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em;
+  color: var(--brand-primary-soft); margin-bottom: 8px; font-weight: 700;
+}
+#tokyo30 .tk-mile-text {
+  font-family: var(--font-display); font-size: 16px; font-weight: 700; color: #fff; line-height: 1.4; margin-bottom: 6px;
+}
+#tokyo30 .tk-mile-desc { font-size: 12.5px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+
+/* ═══════════════════════ #ai-roadmap — Timeline SVG draw-in ═══════════════════════ */
+#ai-roadmap { background: var(--bg); position: relative; }
+#ai-roadmap .ar-body {
+  padding: var(--pad-x); height: 100%; display: flex; flex-direction: column; justify-content: center;
+  max-width: 1480px; margin: 0 auto;
+}
+#ai-roadmap .ar-eyebrow {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.4em;
+  color: var(--brand-primary); margin-bottom: 18px; text-transform: uppercase;
+}
+#ai-roadmap .ar-title {
+  font-family: var(--font-display); font-size: clamp(28px, 3.6vw, 46px); font-weight: 800;
+  letter-spacing: -0.02em; margin-bottom: 56px;
+}
+#ai-roadmap .ar-title .accent { color: var(--brand-primary); }
+#ai-roadmap .ar-rail {
+  position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; padding-top: 90px;
+}
+@media (max-width: 780px) { #ai-roadmap .ar-rail { grid-template-columns: 1fr; gap: 36px; padding-top: 24px; } }
+#ai-roadmap .ar-line {
+  position: absolute; top: 90px; left: 8%; right: 8%; height: 2px;
+  background: var(--brand-primary); opacity: 0; transform-origin: left; transform: scaleX(0);
+}
+.slide-active #ai-roadmap .ar-line { animation: arLineDraw 1.4s var(--ease-cine) 0.4s forwards; }
+@keyframes arLineDraw { to { opacity: 1; transform: scaleX(1); } }
+@media (max-width: 780px) { #ai-roadmap .ar-line { display: none; } }
+#ai-roadmap .ar-phase { position: relative; padding-top: 64px; }
+#ai-roadmap .ar-dot {
+  position: absolute; top: -10px; left: 0;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--brand-primary); border: 4px solid var(--bg);
+  box-shadow: 0 0 0 1px var(--brand-primary);
+}
+#ai-roadmap .ar-year {
+  font-family: var(--font-mono); font-size: 13px; font-weight: 700;
+  color: var(--brand-primary); margin-bottom: 6px; letter-spacing: 0.1em;
+}
+#ai-roadmap .ar-model {
+  font-family: var(--font-display); font-size: clamp(20px, 2.4vw, 28px); font-weight: 800;
+  margin-bottom: 12px; line-height: 1.25; color: var(--text); letter-spacing: -0.01em;
+}
+#ai-roadmap .ar-model .accent { color: var(--brand-primary); }
+#ai-roadmap .ar-tier {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em;
+  color: var(--text-mute); margin-bottom: 14px; text-transform: uppercase;
+}
+#ai-roadmap .ar-desc { font-size: 13.5px; color: var(--text-2); line-height: 1.7; }
+#ai-roadmap .ar-stack {
+  margin-top: 18px; display: flex; flex-wrap: wrap; gap: 6px;
+}
+#ai-roadmap .ar-chip {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em;
+  padding: 3px 9px; background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 3px; color: var(--text-3);
+}
+
+/* ═══════════════════════ #business — Cinematic full-bleed dark ═══════════════════════ */
+#business { background: var(--bg-dark); color: #fff; position: relative; overflow: hidden; }
+#business .bz-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(155,27,48,0.22) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(155,27,48,0.12) 0%, transparent 50%),
+    linear-gradient(180deg, #111 0%, #1a1a1a 100%);
+}
+#business .bz-body {
+  position: relative; z-index: 2; padding: var(--pad-x); height: 100%;
+  display: flex; flex-direction: column; justify-content: center; max-width: 1280px; margin: 0 auto;
+}
+#business .bz-eyebrow {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.5em;
+  color: var(--brand-primary-soft); margin-bottom: 32px; text-transform: uppercase;
+}
+#business .bz-headline {
+  font-family: var(--font-display); font-size: clamp(40px, 6vw, 84px); font-weight: 800;
+  line-height: 1.08; letter-spacing: -0.025em; color: #fff;
+  max-width: 22ch; margin-bottom: 36px;
+}
+#business .bz-headline .accent { color: var(--brand-primary-soft); }
+#business .bz-sub {
+  font-size: clamp(15px, 1.5vw, 19px); color: rgba(255,255,255,0.78);
+  max-width: 56ch; line-height: 1.8; margin-bottom: 40px;
+}
+#business .bz-quote {
+  border-left: 3px solid var(--brand-primary-soft); padding: 16px 0 16px 28px;
+  font-family: var(--font-display); font-size: clamp(18px, 1.9vw, 24px); font-weight: 600;
+  line-height: 1.55; color: #fff; max-width: 50ch;
+}
+#business .bz-quote .em { color: var(--brand-primary-soft); }
+
+/* ═══════════════════════ #numbers — Count-up dashboard ═══════════════════════ */
+#numbers { background: var(--bg-elev); position: relative; }
+#numbers .nm-body {
+  padding: var(--pad-x); height: 100%; display: flex; flex-direction: column; justify-content: center;
+  max-width: 1480px; margin: 0 auto;
+}
+#numbers .nm-eyebrow {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.4em;
+  color: var(--brand-primary); margin-bottom: 18px; text-transform: uppercase;
+}
+#numbers .nm-title {
+  font-family: var(--font-display); font-size: clamp(28px, 3.6vw, 46px); font-weight: 800;
+  letter-spacing: -0.02em; max-width: 22ch; margin-bottom: 48px;
+}
+#numbers .nm-title .accent { color: var(--brand-primary); }
+#numbers .nm-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px;
+}
+@media (max-width: 980px) { #numbers .nm-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) { #numbers .nm-grid { grid-template-columns: 1fr; } }
+#numbers .nm-cell { padding: 28px 24px; background: var(--bg-card); border-radius: 12px; border-top: 3px solid var(--brand-primary); }
+#numbers .nm-num {
+  font-family: var(--font-display); font-size: clamp(44px, 5.4vw, 76px); font-weight: 900;
+  color: var(--brand-primary); letter-spacing: -0.04em; line-height: 1; font-feature-settings: "tnum";
+  display: flex; align-items: baseline; gap: 6px;
+}
+#numbers .nm-num .unit { font-size: 0.36em; color: var(--text-2); font-weight: 700; }
+#numbers .nm-label {
+  margin-top: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--text-mute);
+}
+#numbers .nm-desc { margin-top: 8px; font-size: 13px; color: var(--text-2); line-height: 1.65; }
+
+/* ═══════════════════════ #why — Two huge cards (Why Turing wins) ═══════════════════════ */
+#why { background: var(--bg); position: relative; }
+#why .wy-body {
+  padding: var(--pad-x); height: 100%; display: flex; flex-direction: column; justify-content: center;
+  max-width: 1480px; margin: 0 auto;
+}
+#why .wy-eyebrow {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.4em;
+  color: var(--brand-primary); margin-bottom: 18px; text-transform: uppercase;
+}
+#why .wy-title {
+  font-family: var(--font-display); font-size: clamp(28px, 3.6vw, 46px); font-weight: 800;
+  letter-spacing: -0.02em; max-width: 26ch; line-height: 1.2; margin-bottom: 48px;
+}
+#why .wy-title .accent { color: var(--brand-primary); }
+#why .wy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 860px) { #why .wy-grid { grid-template-columns: 1fr; } }
+#why .wy-card {
+  background: var(--bg-dark); color: #fff; padding: 40px 36px; border-radius: 14px;
+  position: relative; overflow: hidden; min-height: 340px; display: flex; flex-direction: column;
+}
+#why .wy-card::before {
+  content: ""; position: absolute; top: 0; right: 0; width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(155,27,48,0.4) 0%, transparent 70%);
+  pointer-events: none;
+}
+#why .wy-num {
+  font-family: var(--font-display); font-size: 72px; font-weight: 900;
+  color: var(--brand-primary-soft); letter-spacing: -0.04em; line-height: 1;
+  margin-bottom: 28px;
+}
+#why .wy-card h3 {
+  font-family: var(--font-display); font-size: clamp(22px, 2.4vw, 30px); font-weight: 800;
+  margin-bottom: 18px; line-height: 1.25; color: #fff;
+}
+#why .wy-card h3 .accent { color: var(--brand-primary-soft); }
+#why .wy-card p { font-size: 14.5px; color: rgba(255,255,255,0.78); line-height: 1.85; }
+
+/* ═══════════════════════ #team — CXO grid ═══════════════════════ */
+#team { background: var(--bg); position: relative; }
+#team .tm-body {
+  padding: var(--pad-x); height: 100%; display: flex; flex-direction: column; justify-content: center;
+  max-width: 1480px; margin: 0 auto;
+}
+#team .tm-eyebrow {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.4em;
+  color: var(--brand-primary); margin-bottom: 18px; text-transform: uppercase;
+}
+#team .tm-title {
+  font-family: var(--font-display); font-size: clamp(28px, 3.6vw, 46px); font-weight: 800;
+  letter-spacing: -0.02em; margin-bottom: 14px;
+}
+#team .tm-title .accent { color: var(--brand-primary); }
+#team .tm-lead { font-size: 14.5px; color: var(--text-3); max-width: 60ch; margin-bottom: 48px; line-height: 1.7; }
+#team .tm-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
+@media (max-width: 1080px) { #team .tm-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 540px) { #team .tm-grid { grid-template-columns: 1fr; } }
+#team .tm-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px 22px; display: flex; flex-direction: column;
+  transition: transform 0.3s var(--ease-cine), border-color 0.3s var(--ease-cine);
+}
+#team .tm-card:hover { transform: translateY(-4px); border-color: var(--brand-primary); }
+#team .tm-portrait {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-deep));
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 20px;
+  margin-bottom: 18px;
+}
+#team .tm-role {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--brand-primary); margin-bottom: 6px; font-weight: 700;
+}
+#team .tm-name {
+  font-family: var(--font-display); font-size: 17px; font-weight: 800;
+  margin-bottom: 12px; color: var(--text);
+}
+#team .tm-bio { font-size: 12px; color: var(--text-3); line-height: 1.7; flex: 1; }
+#team .tm-prev {
+  margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border);
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.08em;
+  color: var(--text-mute);
+}
+
+/* ═══════════════════════ #values — Sub-reel of 5 values ═══════════════════════ */
+#values { background: var(--bg); position: relative; }
+#values .vl-body { padding: var(--pad-x); height: 100%; display: flex; flex-direction: column; max-width: 1280px; margin: 0 auto; }
+#values .vl-head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-bottom: 40px;
+}
+#values .vl-title-block .vl-eyebrow {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.4em;
+  color: var(--brand-primary); margin-bottom: 14px; text-transform: uppercase;
+}
+#values .vl-title {
+  font-family: var(--font-display); font-size: clamp(28px, 3.6vw, 46px); font-weight: 800;
+  letter-spacing: -0.02em;
+}
+#values .vl-title .accent { color: var(--brand-primary); }
+#values .vl-step {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; color: var(--text-3);
+}
+#values .vl-step strong { color: var(--brand-primary); }
+#values .reel-viewport { flex: 1; }
+#values .vl-slide {
+  padding: 0; display: grid; grid-template-columns: auto 1fr; gap: 56px; align-items: center;
+}
+@media (max-width: 860px) { #values .vl-slide { grid-template-columns: 1fr; gap: 24px; } }
+#values .vl-num {
+  font-family: var(--font-display); font-size: clamp(120px, 18vw, 280px); font-weight: 900;
+  color: var(--brand-primary); letter-spacing: -0.06em; line-height: 0.85;
+  opacity: 0.95;
+}
+#values .vl-name {
+  font-family: var(--font-display); font-size: clamp(32px, 4.2vw, 56px); font-weight: 800;
+  letter-spacing: -0.025em; margin-bottom: 24px; line-height: 1.12; color: var(--text);
+}
+#values .vl-desc {
+  font-size: clamp(14px, 1.3vw, 17px); color: var(--text-2);
+  line-height: 1.9; max-width: 50ch;
+}
+#values .vl-tag {
+  display: inline-block; margin-bottom: 14px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--brand-primary); padding: 4px 10px; border: 1px solid var(--brand-primary); border-radius: 3px;
+}
+
+/* ═══════════════════════ #careers — CTA ═══════════════════════ */
+#careers { background: var(--bg-dark); color: #fff; position: relative; overflow: hidden; }
+#careers .cr-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 30% 50%, rgba(155,27,48,0.3) 0%, transparent 55%),
+    linear-gradient(135deg, #111111 0%, #1d1d1d 100%);
+}
+#careers .cr-body {
+  position: relative; z-index: 2; padding: var(--pad-x); height: 100%;
+  display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px; align-items: center;
+  max-width: 1400px; margin: 0 auto;
+}
+@media (max-width: 980px) { #careers .cr-body { grid-template-columns: 1fr; } }
+#careers .cr-eyebrow {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.5em;
+  color: var(--brand-primary-soft); margin-bottom: 28px; text-transform: uppercase;
+}
+#careers .cr-title {
+  font-family: var(--font-display); font-size: clamp(42px, 6.4vw, 88px); font-weight: 900;
+  line-height: 1.0; letter-spacing: -0.04em; color: #fff;
+  margin-bottom: 28px;
+}
+#careers .cr-title .accent { color: var(--brand-primary-soft); }
+#careers .cr-sub {
+  font-size: clamp(14px, 1.4vw, 18px); color: rgba(255,255,255,0.78); line-height: 1.85;
+  max-width: 50ch; margin-bottom: 28px;
+}
+#careers .cr-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 28px; background: var(--brand-primary); color: #fff;
+  font-family: var(--font-display); font-weight: 700; font-size: 14px; letter-spacing: 0.06em;
+  border-radius: 6px; transition: transform 0.2s var(--ease-cine), background 0.2s var(--ease-cine);
+}
+#careers .cr-cta:hover { background: var(--brand-primary-hover); transform: translateY(-2px); }
+#careers .cr-roles {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 28px; max-height: 70vh; overflow-y: auto;
+}
+#careers .cr-roles-label {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--brand-primary-soft); margin-bottom: 18px; font-weight: 700;
+}
+#careers .cr-role {
+  display: flex; align-items: center; gap: 12px; padding: 11px 0;
+  border-bottom: 1px dashed rgba(255,255,255,0.1);
+  font-size: 13.5px; color: rgba(255,255,255,0.85);
+}
+#careers .cr-role:last-child { border-bottom: none; }
+#careers .cr-role::before {
+  content: "›"; color: var(--brand-primary-soft); font-weight: 700;
+}
+
+/* ═══════════════════════ #finale — Pure opacity fade (v22-v26 lesson) ═══════════════════════ */
+#finale { background: #000; color: #fff; position: relative; overflow: hidden; }
+#finale .fn-grid {
+  position: absolute; inset: 0; opacity: 0.04;
+  background-image: linear-gradient(to right, #fff 1px, transparent 1px), linear-gradient(to bottom, #fff 1px, transparent 1px);
+  background-size: 120px 120px;
+}
+#finale .fn-glow {
+  position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%);
+  width: 720px; height: 720px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(155,27,48,0.2) 0%, transparent 65%);
+}
+#finale .fn-body {
+  position: relative; z-index: 2; padding: var(--pad-x); height: 100%;
+  display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+}
+#finale .fn-eyebrow {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.5em; color: var(--brand-primary-soft);
+  margin-bottom: 40px; text-transform: uppercase;
+}
+#finale .fn-text {
+  font-family: var(--font-display); font-size: clamp(64px, 11vw, 168px); font-weight: 900;
+  line-height: 0.95; letter-spacing: -0.045em; color: #fff;
+}
+#finale .fn-text .accent {
+  color: var(--brand-primary-soft);
+  font-family: var(--font-script); font-weight: 700;
+  font-size: 1.05em;
+}
+#finale .fn-sub {
+  margin-top: 40px; font-size: clamp(15px, 1.4vw, 19px); color: rgba(255,255,255,0.65);
+  max-width: 48ch; line-height: 1.8;
+}
+#finale .fn-meta {
+  margin-top: 48px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3em;
+  color: rgba(255,255,255,0.4); text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════ NAV ════════════════════════════ -->
+<nav id="nav">
+  <div class="logo" data-go="cover"><span class="dot"></span>Turing</div>
+  <ul class="nav-links">
+    <li><a href="#cover" data-go="cover">Cover</a></li>
+    <li><a href="#manifesto" data-go="manifesto">Message</a></li>
+    <li><a href="#mission" data-go="mission">Mission</a></li>
+    <li><a href="#e2e" data-go="e2e">Tech</a></li>
+    <li><a href="#tokyo30" data-go="tokyo30">Tokyo30</a></li>
+    <li><a href="#ai-roadmap" data-go="ai-roadmap">Roadmap</a></li>
+    <li><a href="#business" data-go="business">Business</a></li>
+    <li><a href="#numbers" data-go="numbers">Numbers</a></li>
+    <li><a href="#why" data-go="why">Why Turing</a></li>
+    <li><a href="#team" data-go="team">Team</a></li>
+    <li><a href="#values" data-go="values">Values</a></li>
+    <li><a href="#careers" data-go="careers">Careers</a></li>
+  </ul>
+  <span class="lang">JA</span>
+</nav>
+
+<!-- ════════════════════════════ SLIDES ════════════════════════════ -->
+<div id="slides-container">
+<div id="slides-track">
+
+  <!-- ═══════ 01 · COVER ═══════ -->
+  <section id="cover" data-label="Cover" class="on-dark-sec">
+    <div class="cv-bg"></div>
+    <div class="cv-grid"></div>
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">SECTION 01</span><span class="h-divider">/</span>COVER</span>
+      <span class="h-meta">01 / 13</span>
+    </header>
+    <div class="cv-body">
+      <div class="cv-eyebrow fade-in" style="--d: 0.3s">TURING COMPANY DECK · APRIL 2026</div>
+      <h1 class="cv-title fade-in" style="--d: 0.6s">We Overtake<br><span class="accent">Tesla.</span></h1>
+      <p class="cv-tagline fade-in" style="--d: 1.4s">日本のスタートアップが、完全自動運転で世界をリードする。<br>これは私たちの誓いです。</p>
+      <div class="cv-meta fade-in" style="--d: 1.8s">TURING株式会社 · 完全自動運転AIの開発 · EST. 2021</div>
+    </div>
+  </section>
+
+  <!-- ═══════ 02 · MANIFESTO — Cinematic dissolve ═══════ -->
+  <section id="manifesto" data-label="Message" class="on-dark-sec">
+    <div class="mf-bg"></div>
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">MESSAGE</span><span class="h-divider">/</span>FROM CEO</span>
+      <span class="h-meta">02 / 13</span>
+    </header>
+    <div class="mf-body">
+      <div class="mf-left dissolve" style="--d: 0.3s">
+        <div class="mf-eyebrow">"WE OVERTAKE TESLA" という誓い</div>
+        <h2 class="mf-headline">勘違いから、<br><span class="accent">世界が変わる。</span></h2>
+      </div>
+      <div class="mf-right fade-in" style="--d: 1.2s">
+        <p>日本の自動車産業は <span class="em">GDP の約1割＝50兆円</span> を占める国家の基幹産業だ。80年超の歴史を誇るトヨタが長らく世界首位を守ってきたが、米中のスタートアップが2000年代以降、雨後の筍のように台頭し、その王座を脅かしている。いま業界は "ゲームチェンジ" のただ中にあり、だからこそ挑む価値がある。</p>
+        <p>振り返れば <span class="em">1989年、世界時価総額ランキング TOP50 のうち32社</span> を日本企業が占めていた。しかし現在、残るのはわずか1社。上位はほぼ米国企業に独占されている。その差を生んだものは、世界を変えると "勘違い" して動き出す人の多さだろう。</p>
+        <p><span class="em">"We Overtake Tesla"</span> を初めて口に出した時は怖かった。明らかに勘違い野郎だからだ。でも口に出して十分な人はおそらくいない。だからこそ口に出そうと思った。私たち以外のたくさんの人も勘違いをしてくれることを祈って大声で勘違いを宣言する。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 03 · MISSION — Pure fade dissolve ═══════ -->
+  <section id="mission" data-label="Mission" class="on-dark-sec">
+    <div class="ms-grid"></div>
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">SECTION 03</span><span class="h-divider">/</span>MISSION</span>
+      <span class="h-meta">03 / 13</span>
+    </header>
+    <div class="ms-body">
+      <div class="ms-eyebrow fade-in" style="--d: 0.3s">OUR MISSION</div>
+      <h2 class="ms-statement dissolve" style="--d: 0.7s">完全自動運転を<br><span class="accent">実現する。</span></h2>
+      <p class="ms-sub fade-in" style="--d: 1.8s">我々が目指すのは人類のグランドチャレンジ「完全自動運転」です。自動車産業は世界で年間 300 兆円、日本国内で 50 兆円規模を誇る基幹産業。米中で次々にスタートアップが誕生する今だからこそ、この領域でチャレンジする意義があると信じています。</p>
+    </div>
+  </section>
+
+  <!-- ═══════ 04 · E2E TECHNOLOGY — Two-column scale-in ═══════ -->
+  <section id="e2e" data-label="Tech">
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">SECTION 04</span><span class="h-divider">/</span>TECHNOLOGY</span>
+      <span class="h-meta">04 / 13</span>
+    </header>
+    <div class="e2-body">
+      <h2 class="e2-title reveal d1">End-to-End <span class="accent">自動運転</span></h2>
+      <p class="e2-lead reveal d2">自動運転には大きく 2 つのアプローチがある。チューリングは AI とデータが運転を決める End-to-End モデルを採用。これがスケーリング則の恩恵を最も受ける構造である。</p>
+      <div class="e2-grid">
+        <div class="e2-card scale-in" style="--d: 0.4s">
+          <div class="e2-card-label">従来のシステム</div>
+          <h3>独立なモジュールで構成</h3>
+          <p>画像 / LiDAR 点群 / HD マップを入力に、人が書いたルールベースで各モジュールが順番に処理する古典的アプローチ。</p>
+          <ul>
+            <li>Perception（物体・標識・レーン認識）</li>
+            <li>Prediction（移動予測・将来マップ）</li>
+            <li>Planning（探索問題・経路計画）</li>
+            <li>Control（制御アルゴリズム）</li>
+          </ul>
+        </div>
+        <div class="e2-card highlight scale-in" style="--d: 0.55s">
+          <div class="e2-card-label">我々のアプローチ</div>
+          <h3>End-to-End モデル</h3>
+          <p>マルチカメラ画像をニューラルネットに入れ、車の経路を直接出力する。人ではなく <strong>Data が自動運転を決める</strong>。</p>
+          <ul>
+            <li>Multi-camera images → NN → 車の経路</li>
+            <li>仕組みはシンプル、本質はデータと規模</li>
+            <li>スケーリング則を味方につける（LLM と同じ）</li>
+            <li>Tesla / Wayve / Turing が採用する次世代方式</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 05 · TOKYO30 — Vertical reveal big number ═══════ -->
+  <section id="tokyo30" data-label="Tokyo30" class="on-dark-sec">
+    <div class="tk-bg"></div>
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">2025 KPI</span><span class="h-divider">/</span>MILESTONE</span>
+      <span class="h-meta">05 / 13</span>
+    </header>
+    <div class="tk-body">
+      <div class="tk-left">
+        <div class="tk-eyebrow reveal d1">2025 年 11 月 実証実験</div>
+        <div class="tk-big v-reveal-down" style="--d: 0.3s">Tokyo<sup>30</sup></div>
+        <p class="tk-statement reveal d5">東京都内を <strong>30 分以上</strong>、人間の介入なしで走行する E2E 自動運転モデルを開発する。</p>
+      </div>
+      <div class="tk-right">
+        <div class="tk-mile reveal d4">
+          <div class="tk-mile-year">2022.01</div>
+          <div class="tk-mile-text">私有地での周回運転</div>
+          <div class="tk-mile-desc">テストコース内の決められたルートを自動運転</div>
+        </div>
+        <div class="tk-mile reveal d5">
+          <div class="tk-mile-year">2023.01</div>
+          <div class="tk-mile-text">公道での運転支援</div>
+          <div class="tk-mile-desc">国内販売車両と同等以上の性能を持った運転支援機能</div>
+        </div>
+        <div class="tk-mile reveal d6">
+          <div class="tk-mile-year">2025.11</div>
+          <div class="tk-mile-text">公道での自動運転（Tokyo30）</div>
+          <div class="tk-mile-desc">東京都内を30分以上、人間の介入なしで走行</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 06 · AI ROADMAP — Timeline draw-in ═══════ -->
+  <section id="ai-roadmap" data-label="Roadmap">
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">SECTION 06</span><span class="h-divider">/</span>AI EVOLUTION</span>
+      <span class="h-meta">06 / 13</span>
+    </header>
+    <div class="ar-body">
+      <div class="ar-eyebrow reveal d1">2020 → 2030</div>
+      <h2 class="ar-title reveal d2">自動運転 AI の進化と <span class="accent">2030 年の展望</span></h2>
+      <div class="ar-rail">
+        <div class="ar-line"></div>
+        <div class="ar-phase reveal d4">
+          <div class="ar-dot"></div>
+          <div class="ar-year">〜 2020 年</div>
+          <h3 class="ar-model">ルールベース型<br>自動運転</h3>
+          <div class="ar-tier">L2 高速道路</div>
+          <p class="ar-desc">カメラ / LiDAR / HD Map から認識 → 経路判断 → ルールベースで制御。Waymo 等が代表例。</p>
+          <div class="ar-stack">
+            <span class="ar-chip">Camera</span><span class="ar-chip">LiDAR</span><span class="ar-chip">HD Map</span>
+          </div>
+        </div>
+        <div class="ar-phase reveal d5">
+          <div class="ar-dot"></div>
+          <div class="ar-year">2024 年 〜</div>
+          <h3 class="ar-model"><span class="accent">End-to-End</span> AI</h3>
+          <div class="ar-tier">L2+ 市街地 / L4</div>
+          <p class="ar-desc">単一の AI で認識・計画・実行を実現。公道において人より高い能力をもつ。<strong>※ Turing 現在地</strong></p>
+          <div class="ar-stack">
+            <span class="ar-chip">Camera only</span><span class="ar-chip">E2E NN</span>
+          </div>
+        </div>
+        <div class="ar-phase reveal d6">
+          <div class="ar-dot"></div>
+          <div class="ar-year">2030 年 〜</div>
+          <h3 class="ar-model">フィジカル<br><span class="accent">基盤モデル</span></h3>
+          <div class="ar-tier">L4 (ODD 拡大) / L5</div>
+          <p class="ar-desc">運転性能に加えて言語理解能力をもつ VLA（Vision-Language-Action）モデル。あらゆる交通状況に対応。</p>
+          <div class="ar-stack">
+            <span class="ar-chip">VLA</span><span class="ar-chip">World Model</span><span class="ar-chip">L5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 07 · BUSINESS — Cinematic full-bleed ═══════ -->
+  <section id="business" data-label="Business" class="on-dark-sec">
+    <div class="bz-bg"></div>
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">SECTION 07</span><span class="h-divider">/</span>BUSINESS</span>
+      <span class="h-meta">07 / 13</span>
+    </header>
+    <div class="bz-body">
+      <div class="bz-eyebrow dissolve" style="--d: 0.3s">DEFACTO STANDARD VISION</div>
+      <h2 class="bz-headline dissolve" style="--d: 0.6s">自動運転は、<br>スマホ革命以来の<br><span class="accent">大変革。</span></h2>
+      <p class="bz-sub fade-in" style="--d: 1.8s">iPhone 登場以降、通信・コンテンツ産業が激変し、GAFAM が台頭、生活様式そのものが変わった。完全自動運転は同様の構造変化を自動車産業にもたらす。OTA で進化し続ける「スマホのような車」が標準になる。</p>
+      <div class="bz-quote fade-in" style="--d: 2.2s">あらゆるメーカーがスマホ的な車を望むとき、<br><span class="em">チューリングの AI を標準的な選択肢に。</span></div>
+    </div>
+  </section>
+
+  <!-- ═══════ 08 · NUMBERS — Count-up ═══════ -->
+  <section id="numbers" data-label="Numbers">
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">SECTION 08</span><span class="h-divider">/</span>BY THE NUMBERS</span>
+      <span class="h-meta">08 / 13</span>
+    </header>
+    <div class="nm-body">
+      <div class="nm-eyebrow reveal d1">COMPANY METRICS</div>
+      <h2 class="nm-title reveal d2">数字で見る <span class="accent">Turing の現在地</span></h2>
+      <div class="nm-grid">
+        <div class="nm-cell reveal d3">
+          <div class="nm-num"><span data-count="240" class="cnt">0</span><span class="unit">億円</span></div>
+          <div class="nm-label">累計調達額</div>
+          <p class="nm-desc">Seed → Pre-Series A → Series A 1st Close。日本の自動運転スタートアップとして最大級。</p>
+        </div>
+        <div class="nm-cell reveal d4">
+          <div class="nm-num"><span data-count="100" class="cnt">0</span><span class="unit">名</span></div>
+          <div class="nm-label">従業員数</div>
+          <p class="nm-desc">役員・正社員・インターンを含む。エンジニア比率が極めて高い AI ファースト組織。</p>
+        </div>
+        <div class="nm-cell reveal d5">
+          <div class="nm-num"><span data-count="96" class="cnt">0</span><span class="unit">基</span></div>
+          <div class="nm-label">H100 GPU</div>
+          <p class="nm-desc">自社 GPU クラスタ "Gaggle Cluster"。経産省 GENIAC 採択企業として大規模計算資源を確保。</p>
+        </div>
+        <div class="nm-cell reveal d6">
+          <div class="nm-num"><span data-count="2021" class="cnt">0</span><span class="unit">年創業</span></div>
+          <div class="nm-label">Since 2021/08</div>
+          <p class="nm-desc">CEO 山本一成。HEROZ で将棋 AI「Ponanza」を開発、現役名人へ初勝利した実績。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 09 · WHY TURING — Two huge dark cards ═══════ -->
+  <section id="why" data-label="Why Turing">
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">SECTION 09</span><span class="h-divider">/</span>WHY US</span>
+      <span class="h-meta">09 / 13</span>
+    </header>
+    <div class="wy-body">
+      <div class="wy-eyebrow reveal d1">WHY TURING WINS</div>
+      <h2 class="wy-title reveal d2">なぜ Turing が、<br>自動運転で <span class="accent">勝てるのか。</span></h2>
+      <div class="wy-grid">
+        <div class="wy-card scale-in" style="--d: 0.4s">
+          <div class="wy-num">01</div>
+          <h3>AI 開発における<br><span class="accent">リーダーシップ</span></h3>
+          <p>AI エンジニアを惹きつけるには、魅力的な目標とそれに対する正しいアプローチ、そしてリーダーシップが必要。Turing は AI 開発で実績を持つ山本 CEO のリーダーシップの下、完全自動運転という人類のグランドチャレンジに挑む。</p>
+        </div>
+        <div class="wy-card scale-in" style="--d: 0.55s">
+          <div class="wy-num">02</div>
+          <h3>日本の <span class="accent">強い自動車産業</span></h3>
+          <p>完全自動運転は AI ソフトウェアを開発するだけでは実現できない。ハードウェアとの融合が必要不可欠であり、高い技術力と強固なサプライチェーンを持つ日本だからこそ完全自動運転の開発にチャレンジできる。自動運転は Not a Winner Takes All.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 10 · TEAM — CXO grid ═══════ -->
+  <section id="team" data-label="Team">
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">SECTION 10</span><span class="h-divider">/</span>LEADERSHIP</span>
+      <span class="h-meta">10 / 13</span>
+    </header>
+    <div class="tm-body">
+      <div class="tm-eyebrow reveal d1">MANAGEMENT TEAM</div>
+      <h2 class="tm-title reveal d2">経営陣 <span class="accent">5 名</span></h2>
+      <p class="tm-lead reveal d3">将棋 AI Ponanza の開発者 山本一成 CEO を中心に、IPO 経験者・著名 AI 研究者・グローバル金融出身者が結集。</p>
+      <div class="tm-grid">
+        <div class="tm-card reveal d4">
+          <div class="tm-portrait">山</div>
+          <div class="tm-role">Founder CEO</div>
+          <div class="tm-name">山本 一成</div>
+          <p class="tm-bio">将棋 AI「Ponanza」が初めて将棋名人へ勝利。AI 企業 HEROZ で上場を経験。大きな産業で世界と戦える企業を創るため 2021 年 Turing を創業。</p>
+          <div class="tm-prev">HEROZ · 産業技術総合研究所</div>
+        </div>
+        <div class="tm-card reveal d5">
+          <div class="tm-portrait">田</div>
+          <div class="tm-role">COO</div>
+          <div class="tm-name">田中 大介</div>
+          <p class="tm-bio">メドレーの IPO を執行役員として牽引。Google Suite のエバンジェリスト。組織と事業のスケーリングに豊富な実績。</p>
+          <div class="tm-prev">Google · メドレー</div>
+        </div>
+        <div class="tm-card reveal d5">
+          <div class="tm-portrait">盛</div>
+          <div class="tm-role">CFO</div>
+          <div class="tm-name">盛島 正人</div>
+          <p class="tm-bio">スタートアップ CFO として約 220 億円を調達。MS Menlo Park にて累計 4 兆円の取引経験を有する。</p>
+          <div class="tm-prev">モルガン・スタンレー · GE ジャパン</div>
+        </div>
+        <div class="tm-card reveal d6">
+          <div class="tm-portrait">山</div>
+          <div class="tm-role">CTO</div>
+          <div class="tm-name">山口 祐</div>
+          <p class="tm-bio">日本の囲碁 AI を牽引し、1100 台の GPU を用いた学習を設計。HEROZ の IPO をリードエンジニアとして牽引。</p>
+          <div class="tm-prev">HEROZ · 産業技術総合研究所</div>
+        </div>
+        <div class="tm-card reveal d6">
+          <div class="tm-portrait">徳</div>
+          <div class="tm-role">CBO</div>
+          <div class="tm-name">徳地 佑悟</div>
+          <p class="tm-bio">様々な分野で新規事業プロジェクトを多数主導。インドで「Yugo Sushi」を創業し、成功裏に運営。</p>
+          <div class="tm-prev">バンダイナムコ · メディアドゥ</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 11 · VALUES — Sub-reel ═══════ -->
+  <section id="values" data-label="Values" data-reel="vl">
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">SECTION 11</span><span class="h-divider">/</span>VALUES</span>
+      <span class="h-meta" id="vl-page-num">11 / 13</span>
+    </header>
+    <div class="vl-body">
+      <div class="vl-head">
+        <div class="vl-title-block">
+          <div class="vl-eyebrow reveal d1">OUR VALUES</div>
+          <h2 class="vl-title reveal d2">バリュー、たった <span class="accent">5 つ。</span></h2>
+        </div>
+        <div class="vl-step">VALUE <strong id="vl-sub-cur">01</strong> / 05</div>
+      </div>
+      <div class="reel-viewport">
+        <div class="reel-track" id="vl-reel">
+
+          <div class="vl-slide reel-slide vl-slide active-sub">
+            <div class="vl-num reveal d2">01</div>
+            <div>
+              <div class="vl-tag reveal d3">PRINCIPLE 01</div>
+              <h3 class="vl-name reveal d3">The Bitter Lesson</h3>
+              <p class="vl-desc reveal d4">ヒューリスティックな調整ではなく、<strong>計算量によるスケーリング</strong>こそが長期的には勝利します。小手先の工夫に逃げず、汎用的で本質的な解決策を選びましょう。<br><br>※強化学習の父リッチ・サットン氏の有名なエッセイ「The Bitter Lesson」より。</p>
+            </div>
+          </div>
+
+          <div class="vl-slide reel-slide vl-slide">
+            <div class="vl-num reveal d2">02</div>
+            <div>
+              <div class="vl-tag reveal d3">PRINCIPLE 02</div>
+              <h3 class="vl-name reveal d3">Less is More</h3>
+              <p class="vl-desc reveal d4">コードもモジュールも会議も、同じ成果なら <strong>「少ない」ことが正義</strong> です。常に「削れないか？」と問いかけ、複雑さを排除して本質的な価値だけに集中しましょう。</p>
+            </div>
+          </div>
+
+          <div class="vl-slide reel-slide vl-slide">
+            <div class="vl-num reveal d2">03</div>
+            <div>
+              <div class="vl-tag reveal d3">PRINCIPLE 03</div>
+              <h3 class="vl-name reveal d3">マシュマロをさしてみよう</h3>
+              <p class="vl-desc reveal d4">完璧な計画よりも、<strong>まずは手を動かして形にしてみる</strong>ことが大切です。迷いや先延ばしによるコストを軽視せず、早期の実行と改善を繰り返しましょう。<br><br>※チューリングでは「マシュマロ・チャレンジ」を実施しています。</p>
+            </div>
+          </div>
+
+          <div class="vl-slide reel-slide vl-slide">
+            <div class="vl-num reveal d2">04</div>
+            <div>
+              <div class="vl-tag reveal d3">PRINCIPLE 04</div>
+              <h3 class="vl-name reveal d3">チームは小さく、素早く、変化する</h3>
+              <p class="vl-desc reveal d4">チームは常に最小化し、<strong>リーダーを適性に応じて積極的に抜擢・交代</strong>します。激しい変化の中でも互いにリスペクトを持ち、対話を絶やさず連携しましょう。</p>
+            </div>
+          </div>
+
+          <div class="vl-slide reel-slide vl-slide">
+            <div class="vl-num reveal d2">05</div>
+            <div>
+              <div class="vl-tag reveal d3">PRINCIPLE 05</div>
+              <h3 class="vl-name reveal d3">それでも、前に進む</h3>
+              <p class="vl-desc reveal d4">大きな変化や進化には、しばしば <strong>摩擦や痛みが伴います</strong>。困難な意思決定や厳しい現実から逃げず、痛みを成長の糧として受け入れ、それでも前に進みましょう。</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 12 · CAREERS — CTA ═══════ -->
+  <section id="careers" data-label="Careers" class="on-dark-sec">
+    <div class="cr-bg"></div>
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">SECTION 12</span><span class="h-divider">/</span>JOIN US</span>
+      <span class="h-meta">12 / 13</span>
+    </header>
+    <div class="cr-body">
+      <div>
+        <div class="cr-eyebrow dissolve" style="--d: 0.3s">WE ARE HIRING</div>
+        <h2 class="cr-title dissolve" style="--d: 0.6s">仲間を、<br><span class="accent">募集中。</span></h2>
+        <p class="cr-sub fade-in" style="--d: 1.6s">完全自動運転という人類のグランドチャレンジを実現するため、エンジニア・研究者・PR/IR 人材を全方位で募集しています。</p>
+        <a class="cr-cta fade-in" style="--d: 2.0s" href="https://tur.ing/careers" target="_blank" rel="noopener">採用情報を見る →</a>
+      </div>
+      <div class="cr-roles fade-in" style="--d: 1.4s">
+        <div class="cr-roles-label">募集職種</div>
+        <div class="cr-role">ML エンジニア</div>
+        <div class="cr-role">RL エンジニア</div>
+        <div class="cr-role">MLOps</div>
+        <div class="cr-role">データエンジニア・アナリティクスエンジニア</div>
+        <div class="cr-role">ソフトウェアエンジニア（Web, Linux, SRE）</div>
+        <div class="cr-role">ソフトウェアエンジニア（OS・組み込み, ミドルウェア, ロボティクス）</div>
+        <div class="cr-role">フルスタックエンジニア（Web）</div>
+        <div class="cr-role">制御エンジニア</div>
+        <div class="cr-role">GPU クラスタ / HPC クラスタエンジニア</div>
+        <div class="cr-role">自動運転 AI 開発ドライバー</div>
+        <div class="cr-role">新卒エンジニア</div>
+        <div class="cr-role">採用マネージャー / 採用担当</div>
+        <div class="cr-role">ファイナンスマネージャー / 経理マネージャー</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ 13 · FINALE — Pure opacity fade ═══════ -->
+  <section id="finale" data-label="Finale" class="on-dark-sec">
+    <div class="fn-grid"></div>
+    <div class="fn-glow"></div>
+    <header class="sec-header">
+      <span class="h-title"><span class="h-cat">FINAL</span><span class="h-divider">/</span>OUR PROMISE</span>
+      <span class="h-meta">13 / 13</span>
+    </header>
+    <div class="fn-body">
+      <div class="fn-eyebrow fade-in" style="--d: 0.4s">TURING株式会社 · 完全自動運転AIの開発</div>
+      <h2 class="fn-text fade-in" style="--d: 0.9s">We Overtake<br><span class="accent">Tesla.</span></h2>
+      <p class="fn-sub fade-in" style="--d: 1.8s">日本のスタートアップが、完全自動運転で世界をリードする。<br>これは私たちの誓いです。</p>
+      <div class="fn-meta fade-in" style="--d: 2.4s">tur.ing · @turing_motors</div>
+    </div>
+  </section>
+
+</div><!-- /#slides-track -->
+</div><!-- /#slides-container -->
+
+<!-- ════════════════════════════ DOT NAV ════════════════════════════ -->
+<nav id="dot-nav" aria-label="セクションナビゲーション"></nav>
+
+<!-- ════════════════════════════ SLIDE COUNTER ════════════════════════════ -->
+<div id="slide-counter">
+  <span class="sc-num" id="sc-num">01 / 13</span>
+  <span class="sc-bar" id="sc-bar"></span>
+  <span class="sc-section" id="sc-section">Cover</span>
+</div>
+
+<!-- ════════════════════════════ GROUP DOTS ════════════════════════════ -->
+<div id="group-dots" hidden>
+  <span class="td-step"><strong id="group-cur">01</strong> / <span id="group-total">01</span></span>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var track     = document.getElementById('slides-track');
+  var slides    = Array.prototype.slice.call(track.querySelectorAll(':scope > section'));
+  var total     = slides.length;
+  var current   = 0;
+  var navEl     = document.getElementById('nav');
+
+  var scNum     = document.getElementById('sc-num');
+  var scBar     = document.getElementById('sc-bar');
+  var scSection = document.getElementById('sc-section');
+  var dotNav    = document.getElementById('dot-nav');
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function computeFlatPosition() {
+    var totalSteps = 0, currentPos = 0;
+    for (var i = 0; i < slides.length; i++) {
+      var sec = slides[i];
+      var steps = 1;
+      if (sec.dataset.reel) {
+        var subs = document.querySelectorAll('#' + sec.dataset.reel + '-reel .' + sec.dataset.reel + '-slide');
+        if (subs.length > 0) steps = subs.length;
+      }
+      if (i === current) {
+        var subPos = 0;
+        if (sec.dataset.reel) {
+          var subs2 = document.querySelectorAll('#' + sec.dataset.reel + '-reel .' + sec.dataset.reel + '-slide');
+          for (var s = 0; s < subs2.length; s++) {
+            if (subs2[s].classList.contains('active-sub')) { subPos = s; break; }
+          }
+        }
+        currentPos = totalSteps + subPos;
+      }
+      totalSteps += steps;
+    }
+    return { total: totalSteps, current: currentPos };
+  }
+
+  var dotGroups = [];
+  var lastGroup = null;
+  slides.forEach(function (s, i) {
+    var label = s.dataset.label || s.id;
+    if (lastGroup && lastGroup.label === label) {
+      lastGroup.indices.push(i);
+    } else {
+      lastGroup = { label: label, indices: [i] };
+      dotGroups.push(lastGroup);
+    }
+  });
+  dotGroups.forEach(function (group, gIdx) {
+    var d = document.createElement('button');
+    var multi = group.indices.length > 1;
+    d.className = 'dot-btn' + (gIdx === 0 ? ' active' : '') + (multi ? ' has-pips' : '');
+    d.setAttribute('aria-label', group.label);
+    if (multi) {
+      var pips = document.createElement('span');
+      pips.className = 'dot-pips';
+      for (var p = 0; p < group.indices.length; p++) {
+        var pip = document.createElement('span');
+        pip.className = 'dot-pip' + (p === 0 ? ' active' : '');
+        pips.appendChild(pip);
+      }
+      d.appendChild(pips);
+    }
+    var lbl = document.createElement('span');
+    lbl.className = 'dot-label';
+    lbl.textContent = group.label;
+    d.appendChild(lbl);
+    d.addEventListener('click', function () { goTo(group.indices[0]); });
+    dotNav.appendChild(d);
+  });
+
+  function updateGroupDots() {
+    var groupDotsEl = document.getElementById('group-dots');
+    if (!groupDotsEl) return;
+    var curSec = slides[current];
+    if (!curSec.dataset.reel) { groupDotsEl.hidden = true; return; }
+    var subs = document.querySelectorAll('#' + curSec.dataset.reel + '-reel .' + curSec.dataset.reel + '-slide');
+    if (subs.length <= 1) { groupDotsEl.hidden = true; return; }
+    var activeIdx = 0;
+    for (var i = 0; i < subs.length; i++) {
+      if (subs[i].classList.contains('active-sub')) { activeIdx = i; break; }
+    }
+    groupDotsEl.hidden = false;
+    document.getElementById('group-cur').textContent = pad(activeIdx + 1);
+    document.getElementById('group-total').textContent = pad(subs.length);
+    var existing = groupDotsEl.querySelectorAll('.td-dot');
+    if (existing.length !== subs.length) {
+      Array.prototype.forEach.call(existing, function (d) { d.remove(); });
+      for (var di = 0; di < subs.length; di++) {
+        var btn = document.createElement('button');
+        btn.className = 'td-dot' + (di === activeIdx ? ' active' : '');
+        (function (target) {
+          btn.addEventListener('click', function () { setReelSub(curSec.dataset.reel, target); });
+        })(di);
+        groupDotsEl.appendChild(btn);
+      }
+    } else {
+      Array.prototype.forEach.call(existing, function (d, di) { d.classList.toggle('active', di === activeIdx); });
+    }
+  }
+
+  function setReelSub(reelKey, targetIdx) {
+    var subs = document.querySelectorAll('#' + reelKey + '-reel .' + reelKey + '-slide');
+    if (!subs.length || targetIdx < 0 || targetIdx >= subs.length) return;
+    subs.forEach(function (s, i) {
+      s.classList.toggle('active-sub', i === targetIdx);
+      // Re-trigger animations: force reflow + class re-add
+      if (i === targetIdx) {
+        s.querySelectorAll('.reveal').forEach(function (el) {
+          el.style.animation = 'none';
+          void el.offsetWidth;
+          el.style.animation = '';
+        });
+      }
+    });
+    var reel = document.getElementById(reelKey + '-reel');
+    if (reel) reel.style.transform = 'translateX(-' + (targetIdx * 100) + '%)';
+    var subCurEl = document.getElementById(reelKey + '-sub-cur');
+    if (subCurEl) subCurEl.textContent = pad(targetIdx + 1);
+    updateUI();
+  }
+
+  function updateUI() {
+    var flat = computeFlatPosition();
+    scNum.textContent = pad(flat.current + 1) + ' / ' + pad(flat.total);
+    scBar.style.setProperty('--progress', ((flat.current + 1) / flat.total * 100) + '%');
+    scSection.textContent = slides[current].dataset.label || slides[current].id;
+
+    // Update nav on-dark style
+    var curSec = slides[current];
+    if (curSec.classList.contains('on-dark-sec')) {
+      navEl.classList.add('on-dark');
+      document.body.classList.add('on-dark-mode');
+    } else {
+      navEl.classList.remove('on-dark');
+      document.body.classList.remove('on-dark-mode');
+    }
+
+    Array.prototype.forEach.call(dotNav.children, function (d, gi) {
+      var group = dotGroups[gi];
+      var subIdx = group.indices.indexOf(current);
+      var isActive = subIdx >= 0;
+      d.classList.toggle('active', isActive);
+      var pips = d.querySelectorAll('.dot-pip');
+      if (pips.length > 0) {
+        Array.prototype.forEach.call(pips, function (p, pi) {
+          p.classList.toggle('active', isActive && pi === subIdx);
+        });
+      }
+    });
+
+    var curId = slides[current].id;
+    document.querySelectorAll('#nav .nav-links a').forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('data-go') === curId);
+    });
+
+    updateGroupDots();
+    runCountUps();
+  }
+
+  function runCountUps() {
+    var curSec = slides[current];
+    var counters = curSec.querySelectorAll('.cnt[data-count]');
+    counters.forEach(function (el) {
+      if (el.dataset.done === '1') {
+        el.textContent = parseInt(el.dataset.count, 10).toLocaleString();
+        return;
+      }
+      var target = parseInt(el.dataset.count, 10);
+      var dur = 1400;
+      var start = performance.now();
+      function frame(t) {
+        var p = Math.min((t - start) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.floor(target * eased).toLocaleString();
+        if (p < 1) requestAnimationFrame(frame);
+        else { el.textContent = target.toLocaleString(); el.dataset.done = '1'; }
+      }
+      el.dataset.done = '0';
+      el.textContent = '0';
+      setTimeout(function () { requestAnimationFrame(frame); }, 600);
+    });
+  }
+  function resetCountUps() {
+    document.querySelectorAll('.cnt[data-count]').forEach(function (el) { el.dataset.done = '0'; });
+  }
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    resetCountUps();
+    current = idx;
+    track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+    slides.forEach(function (s, i) { s.classList.toggle('slide-active', i === idx); });
+    updateUI();
+  }
+
+  function next() {
+    var curSec = slides[current];
+    if (curSec.dataset.reel) {
+      var subs = document.querySelectorAll('#' + curSec.dataset.reel + '-reel .' + curSec.dataset.reel + '-slide');
+      var activeIdx = Array.prototype.findIndex.call(subs, function (s) { return s.classList.contains('active-sub'); });
+      if (activeIdx < subs.length - 1) {
+        setReelSub(curSec.dataset.reel, activeIdx + 1);
+        return;
+      }
+    }
+    goTo(current + 1);
+  }
+  function prev() {
+    var curSec = slides[current];
+    if (curSec.dataset.reel) {
+      var subs = document.querySelectorAll('#' + curSec.dataset.reel + '-reel .' + curSec.dataset.reel + '-slide');
+      var activeIdx = Array.prototype.findIndex.call(subs, function (s) { return s.classList.contains('active-sub'); });
+      if (activeIdx > 0) {
+        setReelSub(curSec.dataset.reel, activeIdx - 1);
+        return;
+      }
+    }
+    goTo(current - 1);
+  }
+
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft')                    { e.preventDefault(); prev(); }
+    if (e.key === 'Home')                         { e.preventDefault(); goTo(0); }
+    if (e.key === 'End')                          { e.preventDefault(); goTo(total - 1); }
+  });
+
+  var wheelLock = false;
+  window.addEventListener('wheel', function (e) {
+    if (wheelLock) return;
+    if (Math.abs(e.deltaY) < 30 && Math.abs(e.deltaX) < 30) return;
+    wheelLock = true;
+    (e.deltaY > 0 || e.deltaX > 0) ? next() : prev();
+    setTimeout(function () { wheelLock = false; }, 900);
+  }, { passive: true });
+
+  var touchStartX = 0;
+  window.addEventListener('touchstart', function (e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+  window.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) < 50) return;
+    dx < 0 ? next() : prev();
+  }, { passive: true });
+
+  document.querySelectorAll('[data-go]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      var key = el.getAttribute('data-go');
+      for (var i = 0; i < slides.length; i++) {
+        if (slides[i].id === key) { goTo(i); return; }
+      }
+    });
+  });
+
+  goTo(0);
+  window.deck = { goTo: goTo, next: next, prev: prev, current: function () { return current; }, slides: slides };
+})();
+</script>
+
+</body>
+</html>

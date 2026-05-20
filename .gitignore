@@ -1,0 +1,22 @@
+# Working artifacts (never commit)
+_audit/
+_measurements/
+output/
+*.log
+*.pyc
+__pycache__/
+node_modules/
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Local-only assets (per-conversion)
+*.local.*
