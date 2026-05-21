@@ -6,12 +6,12 @@ Reference HTML outputs produced with this toolkit. These are minimal samples int
 
 | File | Pipeline | Notes |
 |---|---|---|
-| [`turing-we-overtake-tesla-v23.html`](turing-we-overtake-tesla-v23.html) | Vanilla | Single-section tech-talk demo. Useful for inspecting dynamic SVG connectors and bow-sign control. |
+| [`turing-v1.html`](turing-v1.html) | Vanilla | 13-section company deck. Demonstrates the Keynote-style fixed-canvas (1728×963) scaling model, horizontal slide navigation, reveal / count-up animations, and reel sub-slides. |
 
 ## Opening locally
 
 ```bash
-open turing-we-overtake-tesla-v23.html
+open turing-v1.html
 ```
 
 Each file is fully self-contained. No build step or package installation is required.

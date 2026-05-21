@@ -88,7 +88,7 @@ A single `index.html` file with the following properties (no exceptions):
 
 ## Examples
 
-See [`examples/turing-we-overtake-tesla-v23.html`](examples/turing-we-overtake-tesla-v23.html) for a one-section tech-talk demo.
+See [`examples/turing-v1.html`](examples/turing-v1.html) for a 13-section company-deck demo (Keynote-style fixed 1728×963 canvas with horizontal navigation).
 
 Live reference: [tur.ing/company-deck/](https://tur.ing/company-deck/) — a 29-section company deck built with this same prompt.
 

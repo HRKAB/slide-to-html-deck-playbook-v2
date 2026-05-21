@@ -42,10 +42,11 @@ strong { font-weight:700; }
 .accent { color:var(--brand-primary); }
 .em { color:var(--brand-primary); font-weight:700; }
 
-/* language toggle: JA default, EN hidden until #deck-canvas.lang-en */
-.lang-en { display:none; }
-#deck-canvas.lang-en .lang-ja { display:none; }
-#deck-canvas.lang-en .lang-en { display:inline; }
+/* language toggle — html[lang] driven (v1.1 mechanism, display:revert) */
+.lang-ja, .lang-en { display:none; }
+html[lang="ja"] .lang-ja { display:revert; }
+html[lang="en"] .lang-en { display:revert; }
+html[lang="ja"] .lang-en, html[lang="en"] .lang-ja { display:none !important; }
 
 /* ── fixed canvas + scaler ── */
 #deck-canvas { position:fixed; top:50%; left:50%; width:1728px; height:963px; transform-origin:center center; transform:translate(-50%,-50%) scale(var(--s,1)); background:var(--bg); overflow:hidden; }
@@ -61,8 +62,10 @@ strong { font-weight:700; }
 #nav .nav-links a::after { content:''; position:absolute; left:0; bottom:0; width:0; height:1.5px; background:var(--brand-primary); transition:width 0.3s var(--ease-cine); }
 #nav .nav-links a:hover, #nav .nav-links a.active { color:var(--brand-primary); }
 #nav .nav-links a.active::after { width:100%; }
-.lang-btn { font-family:var(--font-mono); font-size:10.5px; font-weight:700; letter-spacing:0.16em; color:var(--text-2); border:1px solid var(--border-h); border-radius:20px; padding:7px 16px; margin-left:30px; transition:border-color 0.2s,color 0.2s; }
-.lang-btn:hover { border-color:var(--brand-primary); color:var(--brand-primary); }
+.lang-toggle { display:inline-flex; margin-left:30px; border:1px solid var(--border-h); border-radius:20px; overflow:hidden; }
+.lang-toggle button { font-family:var(--font-mono); font-size:10.5px; font-weight:700; letter-spacing:0.12em; color:var(--text-3); padding:6px 14px; transition:background 0.2s,color 0.2s; }
+.lang-toggle button.active { background:var(--brand-primary); color:#fff; }
+.lang-toggle button:hover:not(.active) { background:var(--bg-elev); color:var(--text); }
 
 /* ── slide system (stacked + varied entrances) ── */
 #slides-container { position:absolute; inset:0; overflow:hidden; }
@@ -280,7 +283,7 @@ strong { font-weight:700; }
         <li><a href="#why" data-go="why">About</a></li>
         <li><a href="#careers" data-go="careers">Careers</a></li>
       </ul>
-      <button id="lang-toggle" class="lang-btn" aria-label="Switch language">EN</button>
+      <div class="lang-toggle" aria-label="Language"><button data-lang="ja" class="active">JA</button><button data-lang="en">EN</button></div>
     </div>
   </nav>
 
@@ -436,19 +439,19 @@ strong { font-weight:700; }
         <h2 class="tm-title reveal d2"><span class="lang-ja">10 名の <span class="accent">経営チーム</span>。異なる強みが、ひとつのゴールへ。</span><span class="lang-en">A leadership team of <span class="accent">10</span>. Different strengths, one mission.</span></h2>
         <div class="tm-group-label reveal d2">Board</div>
         <div class="tm-grid">
-          <div class="tm-card reveal d3"><div class="tm-portrait">山</div><div class="tm-role">Founder / CEO</div><div class="tm-name"><span class="lang-ja">山本 一成</span><span class="lang-en">Issei Yamamoto</span></div><div class="tm-from"><span class="lang-ja">将棋AI「Ponanza」開発者 · HEROZ 上場リード</span><span class="lang-en">Creator of Ponanza · HEROZ IPO lead</span></div></div>
-          <div class="tm-card reveal d3"><div class="tm-portrait">田</div><div class="tm-role">COO</div><div class="tm-name"><span class="lang-ja">田中 大介</span><span class="lang-en">Daisuke Tanaka</span></div><div class="tm-from"><span class="lang-ja">Google · Medley（IPO 執行役員）</span><span class="lang-en">Google · Medley (IPO Exec)</span></div></div>
-          <div class="tm-card reveal d3"><div class="tm-portrait">盛</div><div class="tm-role">CFO</div><div class="tm-name"><span class="lang-ja">盛島 正人</span><span class="lang-en">Masato Morishima</span></div><div class="tm-from">Morgan Stanley · GE Japan</div></div>
-          <div class="tm-card reveal d3"><div class="tm-portrait">山</div><div class="tm-role">Outside Director</div><div class="tm-name"><span class="lang-ja">山本 良蔵</span><span class="lang-en">Ryozo Yamamoto</span></div><div class="tm-from">Honda F1 · Global Brain</div></div>
-          <div class="tm-card reveal d3"><div class="tm-portrait">雨</div><div class="tm-role">Auditor (CPA)</div><div class="tm-name"><span class="lang-ja">雨越 仁</span><span class="lang-en">Shinobu Amagoshi</span></div><div class="tm-from"><span class="lang-ja">三井物産 · 公認会計士</span><span class="lang-en">Mitsui &amp; Co. · CPA</span></div></div>
+          <div class="tm-card reveal d3"><div class="tm-portrait"><span class="lang-ja">山</span><span class="lang-en">Y</span></div><div class="tm-role">Founder / CEO</div><div class="tm-name"><span class="lang-ja">山本 一成</span><span class="lang-en">Issei Yamamoto</span></div><div class="tm-from"><span class="lang-ja">将棋AI「Ponanza」開発者 · HEROZ 上場リード</span><span class="lang-en">Creator of Ponanza · HEROZ IPO lead</span></div></div>
+          <div class="tm-card reveal d3"><div class="tm-portrait"><span class="lang-ja">田</span><span class="lang-en">T</span></div><div class="tm-role">COO</div><div class="tm-name"><span class="lang-ja">田中 大介</span><span class="lang-en">Daisuke Tanaka</span></div><div class="tm-from"><span class="lang-ja">Google · Medley（IPO 執行役員）</span><span class="lang-en">Google · Medley (IPO Exec)</span></div></div>
+          <div class="tm-card reveal d3"><div class="tm-portrait"><span class="lang-ja">盛</span><span class="lang-en">M</span></div><div class="tm-role">CFO</div><div class="tm-name"><span class="lang-ja">盛島 正人</span><span class="lang-en">Masato Morishima</span></div><div class="tm-from">Morgan Stanley · GE Japan</div></div>
+          <div class="tm-card reveal d3"><div class="tm-portrait"><span class="lang-ja">山</span><span class="lang-en">Y</span></div><div class="tm-role">Outside Director</div><div class="tm-name"><span class="lang-ja">山本 良蔵</span><span class="lang-en">Ryozo Yamamoto</span></div><div class="tm-from">Honda F1 · Global Brain</div></div>
+          <div class="tm-card reveal d3"><div class="tm-portrait"><span class="lang-ja">雨</span><span class="lang-en">A</span></div><div class="tm-role">Auditor (CPA)</div><div class="tm-name"><span class="lang-ja">雨越 仁</span><span class="lang-en">Shinobu Amagoshi</span></div><div class="tm-from"><span class="lang-ja">三井物産 · 公認会計士</span><span class="lang-en">Mitsui &amp; Co. · CPA</span></div></div>
         </div>
         <div class="tm-group-label reveal d4">Executive Officers</div>
         <div class="tm-grid">
-          <div class="tm-card reveal d5"><div class="tm-portrait">山</div><div class="tm-role">CTO</div><div class="tm-name"><span class="lang-ja">山口 祐</span><span class="lang-en">Yu Yamaguchi</span></div><div class="tm-from"><span class="lang-ja">産総研 · HEROZ（囲碁・将棋AI 世界トップ）</span><span class="lang-en">AIST · HEROZ (top Go/Shogi AI)</span></div></div>
-          <div class="tm-card reveal d5"><div class="tm-portrait">徳</div><div class="tm-role">CSO</div><div class="tm-name"><span class="lang-ja">徳地 佑悟</span><span class="lang-en">Yugo Tokuchi</span></div><div class="tm-from">Bandai Namco · Media Do</div></div>
-          <div class="tm-card reveal d5"><div class="tm-portrait">棚</div><div class="tm-role">EO · AD Group 1</div><div class="tm-name"><span class="lang-ja">棚橋 耕太郎</span><span class="lang-en">Kotaro Tanahashi</span></div><div class="tm-from">Recruit · PyQUBO author</div></div>
-          <div class="tm-card reveal d5"><div class="tm-portrait">渡</div><div class="tm-role">EO · AD Group 2</div><div class="tm-name"><span class="lang-ja">渡邉 礁太郎</span><span class="lang-en">Shotaro Watanabe</span></div><div class="tm-from">CyberAgent · Recruit</div></div>
-          <div class="tm-card reveal d5"><div class="tm-portrait">大</div><div class="tm-role">EO · Finance</div><div class="tm-name"><span class="lang-ja">大杉 亘平</span><span class="lang-en">Kohei Osugi</span></div><div class="tm-from">Toppan · Olympus · Recruit · Medley</div></div>
+          <div class="tm-card reveal d5"><div class="tm-portrait"><span class="lang-ja">山</span><span class="lang-en">Y</span></div><div class="tm-role">CTO</div><div class="tm-name"><span class="lang-ja">山口 祐</span><span class="lang-en">Yu Yamaguchi</span></div><div class="tm-from"><span class="lang-ja">産総研 · HEROZ（囲碁・将棋AI 世界トップ）</span><span class="lang-en">AIST · HEROZ (top Go/Shogi AI)</span></div></div>
+          <div class="tm-card reveal d5"><div class="tm-portrait"><span class="lang-ja">徳</span><span class="lang-en">T</span></div><div class="tm-role">CSO</div><div class="tm-name"><span class="lang-ja">徳地 佑悟</span><span class="lang-en">Yugo Tokuchi</span></div><div class="tm-from">Bandai Namco · Media Do</div></div>
+          <div class="tm-card reveal d5"><div class="tm-portrait"><span class="lang-ja">棚</span><span class="lang-en">T</span></div><div class="tm-role">EO · AD Group 1</div><div class="tm-name"><span class="lang-ja">棚橋 耕太郎</span><span class="lang-en">Kotaro Tanahashi</span></div><div class="tm-from">Recruit · PyQUBO author</div></div>
+          <div class="tm-card reveal d5"><div class="tm-portrait"><span class="lang-ja">渡</span><span class="lang-en">W</span></div><div class="tm-role">EO · AD Group 2</div><div class="tm-name"><span class="lang-ja">渡邉 礁太郎</span><span class="lang-en">Shotaro Watanabe</span></div><div class="tm-from">CyberAgent · Recruit</div></div>
+          <div class="tm-card reveal d5"><div class="tm-portrait"><span class="lang-ja">大</span><span class="lang-en">O</span></div><div class="tm-role">EO · Finance</div><div class="tm-name"><span class="lang-ja">大杉 亘平</span><span class="lang-en">Kohei Osugi</span></div><div class="tm-from">Toppan · Olympus · Recruit · Medley</div></div>
         </div>
       </div>
     </section>
@@ -521,15 +524,14 @@ strong { font-weight:700; }
 </div><!-- /#deck-canvas -->
 
 <script>
-/* ── language toggle ── */
+/* ── language toggle (html[lang] driven) ── */
 (function () {
-  var canvas = document.getElementById('deck-canvas');
-  var btn = document.getElementById('lang-toggle');
-  if (!btn) return;
-  btn.addEventListener('click', function () {
-    var en = canvas.classList.toggle('lang-en');
-    btn.textContent = en ? '日本語' : 'EN';
-    document.documentElement.lang = en ? 'en' : 'ja';
+  var btns = Array.prototype.slice.call(document.querySelectorAll('.lang-toggle button'));
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.documentElement.lang = b.getAttribute('data-lang');
+      btns.forEach(function (x) { x.classList.toggle('active', x === b); });
+    });
   });
 })();
 
