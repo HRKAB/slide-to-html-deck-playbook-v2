@@ -25,7 +25,7 @@ The full pipeline lives in `WORKFLOW.md`. The summary:
 | 4 | **HARD GATE** — Build the page-mapping table (slide N → HTML section M). | "Approve mapping?" |
 | 5 | For any page with 3+ positioned shapes, run `PIXEL_MEASUREMENT.md` (PIL bbox + arrow census + face detection). | (none — internal) |
 | 6 | Generate `tokens.css` from brand colors / fonts. | (none — internal) |
-| 7 | Write `index.html`. Use vanilla single-file by default; switch to `REACT_PIPELINE.md` if 49+ pages or pixel-precise layouts. | (none — internal) |
+| 7 | Write `index.html`. Use vanilla single-file by default; switch to `REACT_PIPELINE.md` if 20+ pages or pixel-precise layouts. | (none — internal) |
 | 8 | **HARD GATE** — Visual audit per `VISUAL_AUDIT.md`: Playwright render → Read every PNG → `_audit/REPORT.md` → loop until 0 CRITICAL/HIGH. | (audit report shared) |
 | 9 | Apply fixes. Re-run Stage 8. | (judgment calls only) |
 | 10 | Run `python3 verify.html.py output/index.html --pdf-pages N --brand-color #XXXXXX`. Post the 25-gate report. Score ≥ 80 + 10 CRITICAL gates passing required. | (metric report shared) |

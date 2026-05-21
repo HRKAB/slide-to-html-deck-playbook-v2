@@ -8,7 +8,7 @@ Use the React pipeline when ANY of the following applies:
 
 | Trigger | Why React is better |
 |---|---|
-| Source has 49+ pages | Vanilla HTML at 49+ pages becomes a 10,000+ line monolith. React component reuse keeps each section as a small reusable file. |
+| Source has 20+ pages | Vanilla HTML grows into a hard-to-maintain single-file monolith as page count climbs. React component reuse keeps each section as a small reusable file. |
 | Pixel-precise complex layouts (org charts with 20+ nodes, architecture diagrams with 10+ arrows) | React `useRef` + `useEffect` + `useLayoutEffect` give precise control over `getBoundingClientRect` timing that vanilla JS can race with. |
 | Animation density is very high (count-up + Ken Burns + SVG draw + stagger combinations) | Framer Motion handles entrance / exit / scroll-driven sequences with less manual code. |
 | The deck will be iterated 5+ times (e.g., a flagship company deck) | Component refactoring is much faster in React than in vanilla HTML. |

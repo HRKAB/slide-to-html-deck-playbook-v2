@@ -140,7 +140,7 @@ Pixel measurements complete:
 
 **Default mode**: Vanilla single-file HTML.
 
-**React mode**: For 49+ pages OR pixel-precise reproduction of complex layouts (org charts with 20+ nodes, architecture diagrams with 10+ arrows), switch to the React pipeline. See `REACT_PIPELINE.md`.
+**React mode**: For 20+ pages OR pixel-precise reproduction of complex layouts (org charts with 20+ nodes, architecture diagrams with 10+ arrows), switch to the React pipeline. See `REACT_PIPELINE.md`.
 
 ---
 

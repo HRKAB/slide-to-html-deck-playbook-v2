@@ -58,7 +58,7 @@ When invoked:
    - **Stage 4** — Page mapping table (HARD GATE — wait for user OK)
    - **Stage 5** — Pixel measurement via `PIXEL_MEASUREMENT.md` for any page with 3+ positioned shapes
    - **Stage 6** — Brand system setup (`tokens.css`)
-   - **Stage 7** — HTML draft (vanilla by default; switch to `REACT_PIPELINE.md` for 49+ pages or pixel-precise layouts)
+   - **Stage 7** — HTML draft (vanilla by default; switch to `REACT_PIPELINE.md` for 20+ pages or pixel-precise layouts)
    - **Stage 8** — Self visual audit per `VISUAL_AUDIT.md` (HARD GATE — Playwright render → Read every PNG → `_audit/REPORT.md`)
    - **Stage 9** — Fix iterations until zero CRITICAL/HIGH defects
    - **Stage 10** — Post-flight: run `python3 verify.html.py output/index.html --pdf-pages N --brand-color #XXXXXX`. Post the 25-gate metric report. Score must be ≥ 80 AND all 10 CRITICAL gates must pass; else loop back to Stage 7.
@@ -77,7 +77,7 @@ When invoked:
 | `PRE_FLIGHT_CHECKLIST.md` | 10-item self-declaration to post at Stage 3 |
 | `PIXEL_MEASUREMENT.md` | PIL / OpenCV measurement protocol. Forbids eyeballing for any page with 3+ positioned shapes. |
 | `VISUAL_AUDIT.md` | Mandatory Stage 8 ritual (Playwright render → Read PNG → REPORT.md → loop). |
-| `REACT_PIPELINE.md` | When to switch from vanilla HTML to React + Vite + vite-plugin-singlefile (49+ pages or high pixel-precision). |
+| `REACT_PIPELINE.md` | When to switch from vanilla HTML to React + Vite + vite-plugin-singlefile (20+ pages or high pixel-precision). |
 | `QUALITY_GATES.md` | 25 machine-verifiable acceptance criteria. 10 are CRITICAL (any fail = hard reject regardless of score). |
 | `verify.html.py` | Python script that grep-checks the 25 gates and prints score / 100. Exits with code 2 on CRITICAL fail. |
 

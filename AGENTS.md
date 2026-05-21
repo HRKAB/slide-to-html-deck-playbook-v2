@@ -21,7 +21,7 @@ The user has a PDF (or Google Slides URL). You convert it into one self-containe
 4. At Stage 1 (asset research): **you** perform the web search for press kits, brand colors, fonts, photos. The user does not search — the user only **clicks** the one-shot download URLs you present and **approves** checkpoint outputs. Reference: `ASSET_RESEARCH.md`.
 5. At Stage 3 (pre-flight): post your 10-item self-declaration from `PRE_FLIGHT_CHECKLIST.md`.
 6. At Stage 5 (pixel measurement): for any page with 3+ positioned shapes, render to PNG and measure with PIL. Eyeballing is forbidden. Reference: `PIXEL_MEASUREMENT.md`.
-7. At Stage 7 (HTML draft): if the source has 49+ pages OR pixel-precise complex layouts, switch to the React/Next.js pipeline. Reference: `REACT_PIPELINE.md`.
+7. At Stage 7 (HTML draft): if the source has 20+ pages OR pixel-precise complex layouts, switch to the React/Next.js pipeline. Reference: `REACT_PIPELINE.md`.
 8. At Stage 8 (visual audit): render every section as a PNG with Playwright headless, read every PNG back with the Read tool, build `_audit/REPORT.md`, loop until zero CRITICAL/HIGH defects. "`npm run build` passed" is **not** completion. Reference: `VISUAL_AUDIT.md`.
 9. At Stage 10 (post-flight): run `python3 verify.html.py output/index.html --pdf-pages N --brand-color #XXXXXX`. Post the 25-gate metric report to chat. **10 of the 25 gates are CRITICAL — any single CRITICAL fail = hard reject regardless of score.** If score is below 80 or any CRITICAL gate fails, DO NOT deliver — fix the gaps and re-run.
 10. Return one `index.html` (or `dist/index.html` for the React pipeline) with the metric report and visual audit summary attached.

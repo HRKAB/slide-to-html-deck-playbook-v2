@@ -3,7 +3,7 @@
 # v2.2: FULL ARCHITECTURAL SCAFFOLD EMBEDDED — guarantees horizontal cinematic deck
 #
 # このプロンプトは Vanilla HTML 経路のエントリーポイントです。
-# PDF (49+ ページ) を React + Vite で構築したい場合は ../REACT_PIPELINE.md を参照してください。
+# PDF (20+ ページ) を React + Vite で構築したい場合は ../REACT_PIPELINE.md を参照してください。
 # 11 段階の協働ワークフローは ../WORKFLOW.md、25 ゲートの定義は ../QUALITY_GATES.md に。
 
 このファイル全文を Claude（または ChatGPT / Gemini / Cursor）の新規チャットに 1 回貼り付ければ、

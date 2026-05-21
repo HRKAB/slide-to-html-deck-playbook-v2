@@ -41,7 +41,7 @@ The acceptance criterion is **always**: *the source PDF's every page is faithful
 
 **Multi-stage workflow** ([`WORKFLOW.md`](WORKFLOW.md)): 11 checkpointed stages from source intake → asset research → pre-flight → page mapping → pixel measurement → HTML draft → visual audit → post-flight → handoff. The user clicks/approves at ~6 checkpoints (~15 min total). The AI does everything between (~2-4 hours).
 
-**React/Next.js pipeline for high-density decks** ([`REACT_PIPELINE.md`](REACT_PIPELINE.md)): when the source has 49+ pages or pixel-precise complex layouts, switch from vanilla HTML to React + Vite + Framer Motion + vite-plugin-singlefile (still ships as one `index.html`).
+**React/Next.js pipeline for high-density decks** ([`REACT_PIPELINE.md`](REACT_PIPELINE.md)): when the source has 20+ pages or pixel-precise complex layouts, switch from vanilla HTML to React + Vite + Framer Motion + vite-plugin-singlefile (still ships as one `index.html`).
 
 ---
 
